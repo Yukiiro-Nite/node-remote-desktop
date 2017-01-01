@@ -1,0 +1,17 @@
+{
+  "name": "node-remote-desktop",
+  "version": "1.0.0",
+  "description": "Node remote desktop app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build; node server.js",
+    "build": "javac -d ./src/java/build ./src/java/RobotService.java"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "robotjs": "^0.4.7",
+    "express-starter": "https://github.com/Yukiiro-Nite/express-starter.git"
+  }
+}
