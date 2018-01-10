@@ -1,6 +1,9 @@
 import java.awt.Robot;
 import java.awt.Point;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
 import java.io.Serializable;
@@ -41,7 +44,9 @@ public class RobotService {
   public static int y = 0;
   public static Point prev;
   public static void main(String[] args) throws Exception {
+    Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
     Robot robot = new Robot();
+    System.out.println("{\"Hello\":\"world\"}");
     while(true) {
       ObjectInputStream inputStream = new ObjectInputStream(System.in);
       Object obj = inputStream.readObject();
@@ -72,31 +77,26 @@ public class RobotService {
   }
 
   public static void doMouseMove(MouseMoveEvent event, Robot robot) throws Exception {
-    System.out.printf("do mouse move to (%d, %d)\n", event.x, event.y);
     x = event.x;
     y = event.y;
     robot.mouseMove(event.x, event.y);
   }
 
   public static void doMouseDown(MouseDownEvent event, Robot robot) throws Exception {
-    System.out.printf("do mouse down at (%d, %d) %d\n", event.x, event.y, event.key);
-    // robot.mouseMove(event.x, event.y);
+    robot.mouseMove(event.x, event.y);
     robot.mousePress(InputEvent.getMaskForButton(event.key + 1));
   }
 
   public static void doMouseUp(MouseUpEvent event, Robot robot) throws Exception {
-    System.out.printf("do mouse up at (%d, %d) %d\n", event.x, event.y, event.key);
-    // robot.mouseMove(event.x, event.y);
+    robot.mouseMove(event.x, event.y);
     robot.mouseRelease(InputEvent.getMaskForButton(event.key + 1));
   }
 
   public static void doKeyDown(KeyDownEvent event, Robot robot) throws Exception {
-    System.out.printf("do key down %d\n", event.key);
     robot.keyPress(event.key);
   }
 
   public static void doKeyUp(KeyUpEvent event, Robot robot) throws Exception {
-    System.out.printf("do key up %d\n", event.key);
     robot.keyRelease(event.key);
   }
 }

@@ -1,4 +1,5 @@
 const { spawn } = require('child_process');
+const readline = require('readline');
 const objectSerialize = require('./objectSerializer.js');
 const robotService = spawn('java', [
   '-cp',
@@ -6,12 +7,18 @@ const robotService = spawn('java', [
   'RobotService'
 ]);
 
-robotService.stdout.on('data', (data) => {
-  process.stdout.write(data);
+// robotService.stdout.on('data', (data) => {
+//   process.stdout.write(data);
+// });
+
+const fromRobot = readline.createInterface({ input: robotService.stdout });
+
+fromRobot.on('line', (input) => {
+  console.log(`Received: ${input}`);
 });
 
 robotService.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
+  process.stdout.write(data);
 });
 
 robotService.on('close', (code) => {
@@ -19,6 +26,7 @@ robotService.on('close', (code) => {
 });
 
 process.on('exit', () => {
+  fromRobot.close();
   robotService.kill();
 });
 

@@ -1,16 +1,16 @@
-const robot = require('robotjs');
+// const robot = require('robotjs');
 const Path = require('path');
-const screenSize = robot.getScreenSize();
+// const screenSize = robot.getScreenSize();
 const robotService = require('../src/js/robotProcess');
 const actionBuilder = require('../src/js/actionBuilder');
 
 function getScreen() {
-  const capture = robot.screen.capture();
-  return {
-    image: capture.image,
-    width: capture.width,
-    height: capture.height
-  };
+  // const capture = robot.screen.capture();
+  return {};
+  //   image: capture.image,
+  //   width: capture.width,
+  //   height: capture.height
+  // };
 }
 
 exports.config = {

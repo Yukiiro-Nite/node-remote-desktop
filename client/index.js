@@ -27,11 +27,11 @@ canvas.addEventListener('keydown', handleKeyDown);
 canvas.addEventListener('keyup', handleKeyUp);
 
 function handleMouseMove(event) {
-  socket.emit('event', {
-    type: 'mousemove',
-    x: event.offsetX,
-    y: event.offsetY
-  });
+  // socket.emit('event', {
+  //   type: 'mousemove',
+  //   x: event.offsetX,
+  //   y: event.offsetY
+  // });
 }
 
 function handleMouseDown(event) {
