@@ -5,6 +5,8 @@ const context = canvas.getContext('2d');
 socket.on('screen-size', (msg) => {
   canvas.width = msg.width;
   canvas.height = msg.height;
+  context.fillStyle = "#000000";
+  context.fillRect(0,0,msg.width, msg.height);
 });
 
 socket.on('screen', (msg) => {
@@ -20,18 +22,18 @@ socket.on('screen', (msg) => {
   context.drawImage(backCanvas, 0, 0, canvas.width, canvas.height);
 });
 
-canvas.addEventListener('mousemove', handleMouseMove);
+canvas.addEventListener('mousemove', debounce(handleMouseMove, 80));
 canvas.addEventListener('mousedown', handleMouseDown);
 canvas.addEventListener('mouseup', handleMouseUp);
 canvas.addEventListener('keydown', handleKeyDown);
 canvas.addEventListener('keyup', handleKeyUp);
 
 function handleMouseMove(event) {
-  // socket.emit('event', {
-  //   type: 'mousemove',
-  //   x: event.offsetX,
-  //   y: event.offsetY
-  // });
+  socket.emit('event', {
+    type: 'mousemove',
+    x: event.offsetX,
+    y: event.offsetY
+  });
 }
 
 function handleMouseDown(event) {
@@ -64,4 +66,14 @@ function handleKeyUp(event) {
     type: 'keyup',
     key: event.keyCode
   });
+}
+
+function debounce(fn, ms) {
+  let timeoutId;
+  return function() {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(context, args), ms);
+  }
 }

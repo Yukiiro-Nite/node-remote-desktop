@@ -6,15 +6,18 @@ const robotService = spawn('java', [
   './src/java/build',
   'RobotService'
 ]);
-
-// robotService.stdout.on('data', (data) => {
-//   process.stdout.write(data);
-// });
-
 const fromRobot = readline.createInterface({ input: robotService.stdout });
+let screenSize = { height: 0, width: 0 };
 
 fromRobot.on('line', (input) => {
   console.log(`Received: ${input}`);
+  input = JSON.parse(input);
+  switch(input.type) {
+    case 'screen-size':
+      screenSize.height = input.height;
+      screenSize.width = input.width;
+      break;
+  }
 });
 
 robotService.stderr.on('data', (data) => {
@@ -31,5 +34,7 @@ process.on('exit', () => {
 });
 
 module.exports = {
-  write: (obj) => robotService.stdin.write(objectSerialize(obj))
+  write: (obj) => robotService.stdin.write(objectSerialize(obj)),
+  javaOutput: fromRobot,
+  screenSize
 };
