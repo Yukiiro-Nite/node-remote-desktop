@@ -155,10 +155,18 @@ public class RobotService {
   }
 
   public static void doKeyDown(KeyDownEvent event, Robot robot) throws Exception {
-    robot.keyPress(event.key);
+    try {
+      robot.keyPress(event.key);
+    } catch(Exception e) {
+      System.err.println("Problem with keyDown for char: " + event.key);
+    }
   }
 
   public static void doKeyUp(KeyUpEvent event, Robot robot) throws Exception {
-    robot.keyRelease(event.key);
+    try {
+      robot.keyRelease(event.key);
+    } catch(Exception e) {
+      System.err.println("Problem with keyUp for char: " + event.key);
+    }
   }
 }
